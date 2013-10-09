@@ -5,14 +5,14 @@ class LetsrateGenerator < ActiveRecord::Generators::Base
 
   source_root File.expand_path('../templates', __FILE__)
 
-  desc "copying jquery.raty files to assets directory ..."
+  desc "copying jquery.raty files to assets directory..."
   def copying
-    copy_file 'jquery.raty.js', 'app/assets/javascripts/jquery.raty.js'
-    copy_file 'star-on.png', 'app/assets/images/star-on.png'
-    copy_file 'star-off.png', 'app/assets/images/star-off.png'
-    copy_file 'star-half.png', 'app/assets/images/star-half.png'
-    copy_file 'letsrate.js.cofee.erb', 'app/assets/javascripts/letsrate.js.coffee.erb'
-    copy_file 'rater_controller.rb', 'app/controllers/rater_controller.rb'
+    copy_file 'jquery.raty.js',         'app/assets/javascripts/jquery.raty.js'
+    copy_file 'star-on.png',            'app/assets/images/star-on.png'
+    copy_file 'star-off.png',           'app/assets/images/star-off.png'
+    copy_file 'star-half.png',          'app/assets/images/star-half.png'
+    copy_file 'letsrate.js.cofee.erb',  'app/assets/javascripts/letsrate.js.coffee.erb'
+    copy_file 'rater_controller.rb',    'app/controllers/rater_controller.rb'
   end
 
   desc "model is creating..."
@@ -25,15 +25,15 @@ class LetsrateGenerator < ActiveRecord::Generators::Base
   end
 
   def add_rate_path_to_route
-    route "match '/rate' => 'rater#create', :as => 'rate'"
+    route "match '/rate' => 'rater#create', as: 'rate'"
   end
 
-  desc "cacheable rating average migration is creating ..."
+  desc "cacheable rating average migration is creating..."
   def create_cacheable_migration
     migration_template "cache_migration.rb", "db/migrate/create_rating_caches.rb"
   end
 
-  desc "migration is creating ..."
+  desc "migration is creating..."
   def create_migration
     migration_template "migration.rb", "db/migrate/create_rates.rb"
   end
