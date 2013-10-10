@@ -6,15 +6,11 @@ module Letsrate
   def rate(stars, user, dimension=nil)
     dimension = nil if dimension.blank?
 
-    if can_rate? user, dimension
-      rates(dimension).create! do |r|
-        r.stars = stars
-        r.rater = user
-      end
-      update_rate_average(stars, dimension)
-    else
-      raise 'User has already rated.'
+    rates(dimension).create! do |r|
+      r.stars = stars
+      r.rater = user
     end
+    update_rate_average(stars, dimension)
   end
 
   def update_rate_average(stars, dimension=nil)

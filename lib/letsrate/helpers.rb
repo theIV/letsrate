@@ -8,7 +8,10 @@ module Helpers
 
     readonly = !(current_user && rateable_obj.can_rate?(current_user, dimension))
 
-    content_tag :div, '',
+    content_tag :input, '',
+                'type'                    => 'number',
+                'min'                     => -1,
+                'max'                     => 1,
                 'data-dimension'          => dimension,
                 'class'                   => 'star',
                 'data-rating'             => avg,
@@ -37,7 +40,21 @@ module Helpers
                   end
     end
 
-    content_tag :div, '',
+    #content_tag :div, '',
+                #'data-dimension'          => dimension,
+                #'class'                   => 'star',
+                #'data-rating'             => stars,
+                #'data-id'                 => rateable_obj.id,
+                #'data-classname'          => rateable_obj.class.name,
+                #'data-disable-after-rate' => disable_after_rate,
+                #'data-readonly'           => readonly,
+                #'data-star-count'         => stars
+
+    content_tag :input, '',
+                'type'                    => 'number',
+                'min'                     => -1,
+                'max'                     => 1,
+                'value'                   => stars.to_i,
                 'data-dimension'          => dimension,
                 'class'                   => 'star',
                 'data-rating'             => stars,
@@ -45,7 +62,7 @@ module Helpers
                 'data-classname'          => rateable_obj.class.name,
                 'data-disable-after-rate' => disable_after_rate,
                 'data-readonly'           => readonly,
-                'data-star-count'         => stars
+                'data-star-count'         => options[:star]
   end
 
 end
