@@ -3,7 +3,7 @@ require 'active_support/concern'
 module Letsrate
   extend ActiveSupport::Concern
 
-  def rate(stars, user, dimension=nil)
+  def rate(stars, user, dimension = nil)
     dimension = nil if dimension.blank?
 
     rates(dimension).create! do |r|
@@ -13,24 +13,26 @@ module Letsrate
     update_rate_average(stars, dimension)
   end
 
-  def update_rate_average(stars, dimension=nil)
+  def update_rate_average(stars, dimension = nil)
     if average(dimension).nil?
       RatingCache.create! do |avg|
-        avg.cacheable_id = self.id
+        avg.cacheable_id   = self.id
         avg.cacheable_type = self.class.name
-        avg.avg = stars
-        avg.qty = 1
-        avg.dimension = dimension
+        avg.avg            = stars
+        avg.qty            = 1
+        avg.dimension      = dimension
+        avg.total          = stars
       end
     else
-      a     = average(dimension)
-      a.qty = rates(dimension).count
-      a.avg = rates(dimension).average(:stars)
+      a       = average(dimension)
+      a.qty   = rates(dimension).count
+      a.avg   = rates(dimension).average(:stars)
+      a.total = rates(dimension).sum(:stars)
       a.save!(validate: false)
     end
   end
 
-  def average(dimension=nil)
+  def average(dimension = nil)
     dimension ? self.send("#{dimension}_average") : rate_average_without_dimension
   end
 
